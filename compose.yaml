@@ -1,0 +1,52 @@
+name: higher-lower
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: backend-cont
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - projekat-net
+    env_file:
+      - ./backend/back.env
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend-cont
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    env_file:
+      - ./frontend/front.env
+    networks:
+      - projekat-net
+    depends_on:
+      backend:
+        condition: 
+          service_healthy
+    restart: always
+    
+networks:
+  projekat-net:
+    driver: bridge
+volumes:
+  db_data:
+
+

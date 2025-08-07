@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  min-height: 100vh;
+}
+
+.game-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.score {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 300px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.name {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.vs-text {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.higher {
+  background-color: #00c853;
+  color: white;
+}
+
+.btn.lower {
+  background-color: #d50000;
+  color: white;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.reset-btn {
+  background-color: #1e90ff;
+  color: white;
+  padding: 12px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reset-btn:hover {
+  background-color: #0d6efd;
+}
+
+
+.message {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
