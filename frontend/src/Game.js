@@ -3,15 +3,17 @@ import axios from "axios";
 import "./Game.css";
 
 function Game() {
-  const [pair, setPair] = useState({ A: "", B: "" });
+  const [pair, setPair] = useState({ A: { name: "", followers: 0 }, B: { name: "" } });
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [gameOver, setGameOver] = useState(false); 
+  const [showBFollowers, setShowBFollowers] = useState(false);
 
   const fetchPair = async () => {
     try {
       setLoading(true);
+      setShowBFollowers(false);
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/pair`);
       setPair(res.data);
       setMessage("");
@@ -26,14 +28,19 @@ function Game() {
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/guess`, {
         choice: choice,
-        A: pair.A,
-        B: pair.B
+        A: pair.A.name,
+        B: pair.B.name
       });
+
+    
+      setShowBFollowers(true);
 
       if (res.data.correct) {
         setScore(score + 1);
         setMessage("✅ Correct!");
-        fetchPair();
+        setTimeout(() => {
+          fetchPair();
+        }, 2000);
       } else {
         setMessage(`❌ Wrong! Final score: ${score}`);
         setGameOver(true); 
@@ -42,7 +49,6 @@ function Game() {
       setMessage("⚠️ Error checking answer.");
     }
   };
-
 
   const handleReset = () => {
     setScore(0);
@@ -72,23 +78,31 @@ function Game() {
       ) : (
         <div className="card-container">
           <div className="card top-card">
-            <p className="name">{pair.A}</p>
+            <p className="name">{pair.A.name}</p>
+            <p className="followers">{pair.A.followers.toLocaleString()} followers</p>
           </div>
 
           <div className="vs-text">VS</div>
 
           <div className="card bottom-card">
-            <p className="name">{pair.B}</p>
+            <p className="name">{pair.B.name}</p>
+            {showBFollowers && (
+              <p className="followers">{pair.B.followers.toLocaleString()} followers</p>
+            )}
             <div className="buttons">
-              <button onClick={() => sendAnswer("lower")} className="btn lower">
-                  Lower
-                </button>
-              <button onClick={() => sendAnswer("higher")} className="btn higher">
-                  Higher
-              </button>
-
+              {!showBFollowers && (
+                <>
+                  <button onClick={() => sendAnswer("lower")} className="btn lower">
+                      Lower
+                  </button>
+                  <button onClick={() => sendAnswer("higher")} className="btn higher">
+                      Higher
+                  </button>
+                </>
+              )}
             </div>
           </div>
+          <p className="message">{message}</p>
         </div>
       )}
     </div>
@@ -96,3 +110,4 @@ function Game() {
 }
 
 export default Game;
+
