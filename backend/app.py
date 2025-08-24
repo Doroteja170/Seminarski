@@ -89,8 +89,10 @@ def get_pair():
     if len(all_items) < 2:
         return jsonify({"error": "Not enough items"}), 400
     choices = random.sample(all_items, 2)
-    return jsonify({"A": choices[0].name, "B": choices[1].name})
-
+    return jsonify({
+        "A": {"name": choices[0].name, "followers": choices[0].followers},
+        "B": {"name": choices[1].name, "followers": choices[1].followers}  
+    })
 
 @app.route("/guess", methods=["POST"])
 def check_guess():
@@ -123,9 +125,3 @@ def health():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
-
-
-
-
-
